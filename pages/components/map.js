@@ -9,8 +9,8 @@ mapboxgl.accessToken =
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [25.385831,86.321998],
-      zoom:5, 
+      center: [18.083871,59.280998],
+      zoom:11, 
     });
     console.log("component did momunt");
   }, []);
