@@ -9,17 +9,19 @@ mapboxgl.accessToken =
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [18.083871,59.280998],
+     center: [18.083871,59.280998],
       zoom:11, 
     });
-    console.log("component did momunt");
-  }, []);
+    console.log(" component did momunt");
 
+  }, []);
+                
     return (
         <Wrapper id ="map">
-            
         </Wrapper>
+        
     )
+
 }
 
 export default Map
@@ -27,3 +29,5 @@ export default Map
 const Wrapper = tw.div`
 flex-1
 `
+
+
