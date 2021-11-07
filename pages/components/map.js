@@ -12,9 +12,19 @@ mapboxgl.accessToken =
      center: [18.083871,59.280998],
       zoom:11, 
     });
+
+    addToMap(map)
+
     console.log(" component did momunt");
 
   }, []);
+  const addToMap = (map) => {
+   const marker1 = new mapboxgl.Marker()
+.setLngLat([12.554729, 55.70651])
+.addTo(map);
+    
+  }
+  
                 
     return (
         <Wrapper id ="map">
