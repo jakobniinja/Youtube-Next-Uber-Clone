@@ -1,22 +1,48 @@
-import React, { useEffect } from 'react'
+import { useRouter } from 'next/dist/client/router'
+import React, { useEffect, useState } from 'react'
 import tw from "tailwind-styled-components"
 import Map from './components/Map'
 
 
 const Confirm = () => {
-    const getCordinates = () => {
-        const location = "Stockholm"
-        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json`)
+
+    const router =useRouter()
+    const {pickup, dropoff} = router.query
+
+
+    const [pickupCoordinates, setPickUpCoordinates ] = useState("")
+    const [dropoffCoordinates, setDropoffCoordinates] = useState("")
+    console.log("pickup: ", pickup )
+    console.log("dropoff: ", dropoff )
+    const getPickUpCoordinates= (pickup) => {
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?` + 
+        new URLSearchParams({
+            access_token:"pk.eyJ1IjoiMTJhbiIsImEiOiJja3ZtbDAyMTkwYnR2MnBqcDM3ZndyZHI3In0.R9aYS_IKX0YllA3w-aLmSQ",
+            limit: 1
+        }
+            ))
         .then((res) =>  res.json())
-        .then((data) => console.log(data))
+        .then((data) => setPickUpCoordinates(data.features[0].center))
     }
-    useEffect(() => {
-        getCordinates();
-    }, [])
     
+    const getDropOffCordinates = (dropoff) => {
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?` + 
+        new URLSearchParams({
+            access_token:"pk.eyJ1IjoiMTJhbiIsImEiOiJja3ZtbDAyMTkwYnR2MnBqcDM3ZndyZHI3In0.R9aYS_IKX0YllA3w-aLmSQ",
+            limit: 1
+        }
+            ))
+        .then((res) =>  res.json())
+        .then((data) =>setDropoffCoordinates(data.features[0].center))
+    }
+    
+    useEffect(() => {
+        getPickUpCoordinates(pickup);
+        getDropOffCordinates(dropoff);
+   }, [pickup, dropoff])
     return (
         <Wrapper>
-            <Map/>
+            <Map  pickupCoordinates={pickupCoordinates}  dropoffCoordinates={dropoffCoordinates} />
             <RideContainer>
                 Ride Selector
                Confirm Button 
