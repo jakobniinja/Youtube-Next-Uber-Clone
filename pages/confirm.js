@@ -13,8 +13,8 @@ const Confirm = () => {
     const {pickup, dropoff} = router.query
 
 
-    const [pickupCoordinates, setPickUpCoordinates ] = useState("")
-    const [dropoffCoordinates, setDropoffCoordinates] = useState("")
+    const [pickupCoordinates, setPickUpCoordinates ] = useState([0,0])
+    const [dropoffCoordinates, setDropoffCoordinates] = useState([0,0])
     console.log("pickup: ", pickup )
     console.log("dropoff: ", dropoff )
     const getPickUpCoordinates= (pickup) => {
@@ -45,14 +45,16 @@ const Confirm = () => {
    }, [pickup, dropoff])
     return (
         <Wrapper>
-            <Link  href="/search">
                 <ButtonContainer>
+            <Link  href="/search">
             <BackButton src="https://img.icons8.com/ios-filled/50/000000/left.png" />
-                </ButtonContainer>
             </Link>
+                </ButtonContainer>
             <Map  pickupCoordinates={pickupCoordinates}  dropoffCoordinates={dropoffCoordinates} />
             <RideContainer>
-                <RideSelector/>
+                <RideSelector  
+                pickupCoordinates={pickupCoordinates}  dropoffCoordinates={dropoffCoordinates} 
+                />
                 <ConfirmButtonContainer>
                     <ConfirmButton>
                     Confirm UberX  
@@ -79,10 +81,10 @@ const  ConfirmButton = tw.div`
 bg-black text-white my-2 mx-4 text-center text-xl 
 `
 const BackButton = tw.img`
-w-12 h-12 rounded-full bg-opacity-0
+h-full object-contain
 `
             
 const ButtonContainer = tw.div`
-flex rounded-full h-24 w-24 flex items-center justify-center bg-opacity-0
+rounded-full absolute top-4 left-4 z-10 bg-white shadow-md cursor-pointer
 
 `
