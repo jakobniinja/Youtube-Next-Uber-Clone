@@ -4,40 +4,32 @@ import { carList } from "../../data/carList";
 const RideSelector = ({pickupCoordinates, dropoffCoordinates}) => {
   const [rideDuration, setRideDuration] = useState(0);
 
-
-  
-
-  
   useEffect(() => {
-    // get ride dureation from mapbox 
-    // 1-. pickuCoordinates
-    // 2 - dropoffCoordinates
-
-    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${pickupCoordinates[0]},${pickupCoordinates[1]};${dropoffCoordinates[0]},${dropoffCoordinates[1]}?access_token=pk.eyJ1IjoiMTJhbiIsImEiOiJja3ZtbDAyMTkwYnR2MnBqcDM3ZndyZHI3In0.R9aYS_IKX0YllA3w-aLmSQ`
-    ).then(res => res.json())
-    .then(data => setRideDuration(data.routes[0].duration /100))
-  }, [pickupCoordinates, dropoffCoordinates])
+    fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${pickupCoordinates[0]},${pickupCoordinates[1]};${dropoffCoordinates[0]},${dropoffCoordinates[1]}?access_token=pk.eyJ1IjoibmVlcmFqMTUwMjIwMDEiLCJhIjoiY2t2bG83dGk3M2lqdzJvcGdwNjdzM2toaCJ9.ab0UC-ACBsavsHhlpQOT5Q`
+    )
+      .then((res) => res.json())
+      .then((res) => setRideDuration(() => res.routes[0].duration / 100))
+      .catch((err) => console.log(err));
+  }, [pickupCoordinates, dropoffCoordinates]);
   return (
     <Wrapper>
       <Title>Choose a ride, or swipe up for more</Title>
-
       <CarList>
-        {carList.map((car) => (
-          
-         <Car key={car.multiplier} >
-          <CarImage src={car.imgUrl}  />
-          <CarDetails>
-              <Service> {car.service} </Service>
-              <Time> {Math.round(12 / car.multiplier)} min away</Time>
-          </CarDetails>
-          <Price> {(rideDuration* car.multiplier).toFixed(1) } $ </Price>
-        </Car> 
+        {carList.map((car, index) => (
+          <Car key={`uber-${index} `}>
+            <CarImage src={car.imgUrl} />
+            <CarDetails>
+              <Service>{car.service}</Service>
+              <Time>5 min away</Time>
+            </CarDetails>
+            <Price>{"$" + (rideDuration * car.multiplier).toFixed(1)}</Price>
+          </Car>
         ))}
-        
       </CarList>
     </Wrapper>
   );
-};
+}
 
 export default RideSelector;
 
