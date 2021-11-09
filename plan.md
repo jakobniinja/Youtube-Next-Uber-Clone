@@ -7,4 +7,6 @@
 7. add a auto zone to be able to zoom into the markers ✅ 
 8. pass in location data into search page ✅ 
 9. use the passed in data to put it in the map ✅ 
-10. create the html for the rights selector 
+10. create the html for the rights selector ✅ 
+11. calculate the price off the Uber 
+11. add login 
