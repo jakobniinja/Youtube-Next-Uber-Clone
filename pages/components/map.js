@@ -9,7 +9,8 @@ mapboxgl.accessToken =
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/navigation-night-v1",
+      
      center: [18.083871,59.280998],
       zoom:4, 
     });
