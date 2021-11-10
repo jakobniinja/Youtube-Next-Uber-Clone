@@ -1,8 +1,27 @@
-import Link from "next/link"
+import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import tw from "tailwind-styled-components";
 import Map from "./components/Map";
-
+import { auth } from "../firebase";
+import { useRouter } from "next/router";
 export default function Home() {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, user => {
+      if(user){
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL
+        })
+      }else{
+        setUser(null),
+        router.push("/login")
+      }
+    })
+  }, []);
   return (
     <Wrapper>
       <Map />
@@ -10,17 +29,16 @@ export default function Home() {
         <Header>
           <UberLogo src="https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" />
           <Profile>
-            <Name>Jakob /aro</Name>
-            <UserImage src="https://images.squarespace-cdn.com/content/v1/534e4ffae4b02414fb6b56c1/1443360601736-0HCN7Y8IJRIRSM3NERKX/image.jpg?format=1000w" />
+            <Name> {user && user.name} </Name>
+            <UserImage  onClick={() => signOut(auth)} src={ user && user.photoUrl} />
           </Profile>
         </Header>
         <ActionButtons>
-       <Link href="/search">
-         
-          <ActoinButton>
-            <ActionButtonImage src={"https://i.ibb.co/cyvcpfF/uberx.png"} />
-            Ride
-          </ActoinButton>
+          <Link href="/search">
+            <ActoinButton>
+              <ActionButtonImage src={"https://i.ibb.co/cyvcpfF/uberx.png"} />
+              Ride
+            </ActoinButton>
           </Link>
           <ActoinButton>
             <ActionButtonImage
@@ -75,7 +93,7 @@ mr-4 w-20 test-sm
 `;
 
 const UserImage = tw.img`
-h-12 w-12 rounded-full border border-gray-200 p-px
+h-12 w-12 rounded-full border border-gray-200 p-px cursor-pointer
 
 
 `;
@@ -96,4 +114,4 @@ h-3/5
 const InputButton = tw.div`
 h-20 bg-gray-200 text-2xl p-4 flex items-center mt-5
 
-`
+`;
