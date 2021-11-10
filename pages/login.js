@@ -38,9 +38,9 @@ const UberLogo = tw.img`
 h-20 w-auto object-contain self-start
 `
 const Title = tw.div`
-text-5xl pt-4 text-gray-500
+text-5xl pt-4 text-gray-500 
 
 `
 const HeadImage = tw.img`
-object-contain w-full  
+object-contain w-full  p-4
 `
